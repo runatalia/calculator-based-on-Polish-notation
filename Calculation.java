@@ -1,25 +1,39 @@
 package SimpleCalculator;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EmptyStackException;
+import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Calculation {
 
     private final String stringFromInPut;         //expression
     private Stack<Double> stack = new Stack<>(); //stack for solution 
     private Stack<Character> operators = new Stack<>(); //stack for operators in reverseToPolishNotation()
+    private String result;
 
     public Calculation(String stringFromInPut) {
         this.stringFromInPut = stringFromInPut;
+        result = reverseToPolishNotation();
     }
 
-    public String getStringFromInPut() {
+    private String getStringFromInPut() {
         return stringFromInPut;
     }
 
-    public double reverseToPolishNotation() {       //change the appearance of the string to reverse polish entry
+    public String getResult() {
+        return result;
+    }
+    
+    
+     
+    private String reverseToPolishNotation() {       //change the appearance of the string to reverse polish entry
+        
         String correctedString = checkUnary(stringFromInPut);               //check for unarity
 
         StringBuilder reversePolishNotation = new StringBuilder();   //final reverse polish notation
@@ -86,7 +100,14 @@ public class Calculation {
 
     }
 
-    private double solution(String task) {                     //the solution of the task
+     private String formatResult(double result) {   //if the result is is a whole integer, then we return a string without .0
+         String formattedDouble = null;
+         if(result%1==0){return (int)result+"";}
+         else formattedDouble = new DecimalFormat("#0.00").format(result);
+         return formattedDouble;
+     
+     }
+    private String solution(String task) {                     //the solution of the task
         final var expression = task.split("\\s+");           //array of elements
         double result = 0.0;
         try {
@@ -107,14 +128,14 @@ public class Calculation {
                 System.out.println("\n ERROR");
             }
         } catch (IllegalArgumentException re) {
-            System.out.println("\n Operation Error!");
+            return "Operation Error!";
         } catch (ArithmeticException ae) {
-            System.out.println("\n Error! Division by zero");
+             return "Error! Division by zero";
         }
         catch (EmptyStackException ae) {
-            System.out.println("\n Invalid value entered. Check it");
+            return "Error! check expression";
         }
-        return result;
+        return formatResult(result);
     }
 
     private void evaluate(double op1, double op2, String operator) {   //get last digits on the stack and operator
@@ -138,7 +159,7 @@ public class Calculation {
                 break;
 
             case "/":
-                if (op2 == 0.0) {
+                if (op1 == 0.0) {
                     throw new ArithmeticException();
                 }
                 stack.push(op2 / op1);

@@ -11,10 +11,12 @@ public class InputExpression {
 
     private StringBuilder str = new StringBuilder();  //write from buffer
 
+   
     public String input() throws IOException {
+
         try (RandomAccessFile accessFile = new RandomAccessFile("calculator.txt", "rw");
                 FileChannel channel = accessFile.getChannel();) {
-            ByteBuffer buffer = ByteBuffer.allocate(8);   //buffer can get 8 byte
+            ByteBuffer buffer = ByteBuffer.allocate(25);   //buffer can get 25 byte
             int byteRead = channel.read(buffer); //reads a sequence of bytes
             if (byteRead < 0) {
                 throw new IOException();
@@ -29,7 +31,9 @@ public class InputExpression {
             }
 
         }
-        System.out.print(str.toString());
+      
         return str.toString();
     }
+    
+     
 }
