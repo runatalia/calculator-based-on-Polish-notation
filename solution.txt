@@ -1,5 +1,0 @@
-14 - f = Error! check expression
-15 / 0 = Error! Division by zero
-45 * 2 = 90
-45**2 = Error! check expression
-45+3- = Error! check expression

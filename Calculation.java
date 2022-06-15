@@ -3,8 +3,11 @@ package SimpleCalculator;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.EmptyStackException;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,8 +16,8 @@ import java.util.stream.Collectors;
 public class Calculation {
 
     private final String stringFromInPut;         //expression
-    private Stack<Double> stack = new Stack<>(); //stack for solution 
-    private Stack<Character> operators = new Stack<>(); //stack for operators in reverseToPolishNotation()
+     private Deque<Double> stack = new LinkedList<>(); //stack for solution 
+    private Deque<Character> operators = new LinkedList<>(); //stack for operators in reverseToPolishNotation()
     private String result;
 
     public Calculation(String stringFromInPut) {
@@ -133,6 +136,9 @@ public class Calculation {
              return "Error! Division by zero";
         }
         catch (EmptyStackException ae) {
+            return "Error! check expression";
+        }
+         catch (NoSuchElementException ae) {
             return "Error! check expression";
         }
         return formatResult(result);
